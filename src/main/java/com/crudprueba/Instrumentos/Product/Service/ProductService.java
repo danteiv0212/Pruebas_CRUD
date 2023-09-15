@@ -1,5 +1,7 @@
-package com.crudprueba.Instrumentos.Product;
+package com.crudprueba.Instrumentos.Product.Service;
 
+import com.crudprueba.Instrumentos.Product.Domain.ProductDomain;
+import com.crudprueba.Instrumentos.Product.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,30 +9,31 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
 public class ProductService {
     HashMap<String, Object> datos;
     private final ProductRepository productRepository;
+
     @Autowired
-    public ProductService(ProductRepository productRepository){
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
-    public List<Product> getProducts(){
+
+    public List<ProductDomain> getProducts() {
         return this.productRepository.findAll();
     }
 
-    public ResponseEntity<Object> postProduct(Product product){
+    public ResponseEntity<Object> postProduct(ProductDomain productDomain) {
 //    public void newProduct(Product product) {
-        Optional<Product> resp = productRepository.findProductByCode(product.getCode());
+        Optional<ProductDomain> resp = productRepository.findProductByCode(productDomain.getCode());
 //        HashMap<String, Object> datos = new HashMap<>();
         datos = new HashMap<>();
 
-        if(resp.isPresent()){
+        if (resp.isPresent()) {
             datos.put("error", true);
-            datos.put("message","Ya existe un producto con ese código");
+            datos.put("message", "Ya existe un producto con ese código");
 //            throw new IllegalStateException("El producto ya existe");
             return new ResponseEntity<>(
                     datos,
@@ -38,9 +41,9 @@ public class ProductService {
 
             );
         }
-        productRepository.save(product);
-        datos.put("data", product);
-        datos.put("message","Se registró con éxito");
+        productRepository.save(productDomain);
+        datos.put("data", productDomain);
+        datos.put("message", "Se registró con éxito");
         return new ResponseEntity<>(
                 datos,
                 HttpStatus.CREATED
@@ -48,15 +51,15 @@ public class ProductService {
     }
 
 
-    public ResponseEntity<Object> putProduct(Product product){
+    public ResponseEntity<Object> putProduct(ProductDomain productDomain) {
 //    public void newProduct(Product product) {
 //        Optional<Product> resp = productRepository.findProductByCode(product.getCode());
 //        HashMap<String, Object> datos = new HashMap<>();
         datos = new HashMap<>();
 
-        if(product.getId()==null){
+        if (productDomain.getId() == null) {
             datos.put("error", true);
-            datos.put("message","Se requiere Id para la actualización");
+            datos.put("message", "Se requiere Id para la actualización");
 //            throw new IllegalStateException("El producto ya existe");
             return new ResponseEntity<>(
                     datos,
@@ -64,11 +67,11 @@ public class ProductService {
 
             );
         }
-        if(product.getId()!=null) {
+        if (productDomain.getId() != null) {
             datos.put("message", "Se actualizó con éxito");
 
-            productRepository.save(product);
-            datos.put("data", product);
+            productRepository.save(productDomain);
+            datos.put("data", productDomain);
 //            datos.put("message", "Se registró con éxito");
         }
         return new ResponseEntity<>(
@@ -78,21 +81,19 @@ public class ProductService {
     }
 
 
-
-
-    public ResponseEntity<Object> deleteProduct(Product product){
+    public ResponseEntity<Object> deleteProduct(ProductDomain productDomain) {
         datos = new HashMap<>();
-        boolean existe = this.productRepository.existsById(product.getId());
-        if(!existe){
+        boolean existe = this.productRepository.existsById(productDomain.getId());
+        if (!existe) {
             datos.put("error", true);
-            datos.put("message","No existe un producto ligado a ese ID");
+            datos.put("message", "No existe un producto ligado a ese ID");
             return new ResponseEntity<>(
                     datos,
                     HttpStatus.CONFLICT
             );
         }
-        productRepository.deleteById(product.getId());
-        datos.put("message","El producto se eliminó exitosamente");
+        productRepository.deleteById(productDomain.getId());
+        datos.put("message", "El producto se eliminó exitosamente");
         return new ResponseEntity<>(
                 datos,
                 HttpStatus.ACCEPTED
@@ -115,7 +116,6 @@ public class ProductService {
 //                    datos,
 //                    HttpStatus.ACCEPTED
 //            );
-
 
 
     }

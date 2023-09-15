@@ -1,10 +1,10 @@
-package com.crudprueba.Instrumentos.Product;
+package com.crudprueba.Instrumentos.Product.Domain;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table
-public class Product {
+@Table(name = "producto")
+public class ProductDomain {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,10 +14,10 @@ public class Product {
     private String type;
     private float price;
 
-    public Product() {
+    public ProductDomain() {
     }
 
-    public Product(Long id, String code, String name, String type, float price) {
+    public ProductDomain(Long id, String code, String name, String type, float price) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -25,7 +25,7 @@ public class Product {
         this.price = price;
     }
 
-    public Product(String code, String name, String type, float price) {
+    public ProductDomain(String code, String name, String type, float price) {
         this.code = code;
         this.name = name;
         this.type = type;
