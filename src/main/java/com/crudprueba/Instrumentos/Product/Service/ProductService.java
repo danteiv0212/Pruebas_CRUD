@@ -27,7 +27,8 @@ public class ProductService {
 
     public ResponseEntity<Object> postProduct(ProductDomain productDomain) {
 //    public void newProduct(Product product) {
-        Optional<ProductDomain> resp = productRepository.findProductByCode(productDomain.getCode());
+        Optional<ProductDomain> resp = productRepository.
+                findProductByCode(productDomain.getCode());
 //        HashMap<String, Object> datos = new HashMap<>();
         datos = new HashMap<>();
 
@@ -81,41 +82,41 @@ public class ProductService {
     }
 
 
-    public ResponseEntity<Object> deleteProduct(ProductDomain productDomain) {
-        datos = new HashMap<>();
-        boolean existe = this.productRepository.existsById(productDomain.getId());
-        if (!existe) {
-            datos.put("error", true);
-            datos.put("message", "No existe un producto ligado a ese ID");
-            return new ResponseEntity<>(
-                    datos,
-                    HttpStatus.CONFLICT
-            );
-        }
-        productRepository.deleteById(productDomain.getId());
-        datos.put("message", "El producto se eliminó exitosamente");
-        return new ResponseEntity<>(
-                datos,
-                HttpStatus.ACCEPTED
-        );
-
-//        public ResponseEntity<Object> deleteProduct(Long id){
-//            datos = new HashMap<>();
-//            boolean existe = this.productRepository.existsById(id);
-//            if(!existe){
-//                datos.put("error", true);
-//                datos.put("message","No existe un producto ligado a ese ID");
-//                return new ResponseEntity<>(
-//                        datos,
-//                        HttpStatus.CONFLICT
-//                );
-//            }
-//            productRepository.deleteById(id);
-//            datos.put("message","El producto se eliminó exitosamente");
+//    public ResponseEntity<Object> deleteProduct(ProductDomain productDomain) {
+//        datos = new HashMap<>();
+//        boolean existe = this.productRepository.existsById(productDomain.getId());
+//        if (!existe) {
+//            datos.put("error", true);
+//            datos.put("message", "No existe un producto ligado a ese ID");
 //            return new ResponseEntity<>(
 //                    datos,
-//                    HttpStatus.ACCEPTED
+//                    HttpStatus.CONFLICT
 //            );
+//        }
+//        productRepository.deleteById(productDomain.getId());
+//        datos.put("message", "El producto se eliminó exitosamente");
+//        return new ResponseEntity<>(
+//                datos,
+//                HttpStatus.ACCEPTED
+//        );
+
+        public ResponseEntity<Object> deleteProduct(Long id){
+            datos = new HashMap<>();
+            boolean existe = this.productRepository.existsById(id);
+            if(!existe){
+                datos.put("error", true);
+                datos.put("message","No existe un producto ligado a ese ID");
+                return new ResponseEntity<>(
+                        datos,
+                        HttpStatus.CONFLICT
+                );
+            }
+            productRepository.deleteById(id);
+            datos.put("message","El producto se eliminó exitosamente");
+            return new ResponseEntity<>(
+                    datos,
+                    HttpStatus.ACCEPTED
+            );
 
 
     }

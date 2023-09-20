@@ -34,14 +34,16 @@ public class ProductController {
         return this.productService.putProduct(productDomain);
     }
 
-//    @DeleteMapping (path = "{productId}")
-//    public ResponseEntity<Object> deleteProducts(@PathVariable("productId") long id) {
-//        return this.productService.deleteProduct(id);
+//    @DeleteMapping
+//    public ResponseEntity<Object> deleteProducts(@RequestBody ProductDomain productDomain) {
+//        return this.productService.deleteProduct(productDomain);
 //    }
 
-    @DeleteMapping
-    public ResponseEntity<Object> deleteProducts(@RequestBody ProductDomain productDomain) {
-        return this.productService.deleteProduct(productDomain);
+    @DeleteMapping (path = "{productId}")
+    public ResponseEntity<Object> deleteProducts(@PathVariable("productId") long id) {
+        return this.productService.deleteProduct(id);
     }
+
+
 
 }
